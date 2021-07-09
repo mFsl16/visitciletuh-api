@@ -1,7 +1,5 @@
 package com.faisal.visitciletuhapi.model.entities;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,8 +9,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
-@Table(name = "tbl_wisata")
-public class Wisata implements Serializable {
+@Table(name = "tbl_hotel")
+public class Hotel {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +19,7 @@ public class Wisata implements Serializable {
     @NotEmpty(message = "Name is required !")
     private String name;
 
-    @NotEmpty(message = "Message is required !")
+    @NotEmpty(message = "Categori is required !")
     private String cattegori;
 
     @NotEmpty(message = "Description is required !")
@@ -31,16 +29,16 @@ public class Wisata implements Serializable {
     @NotEmpty(message = "Photo is required !")
     private String photo;
 
-    @NotEmpty(message = "Latittude is required !")
+    @NotEmpty(message = "Lattitude is required !")
     private Double lattitude;
 
     @NotEmpty(message = "Longitude is required !")
     private Double longitude;
 
-    public Wisata() {
+    public Hotel() {
     }
 
-    public Wisata(Long id, String name, String cattegori, String description, String photo, Double lattitude,
+    public Hotel(Long id, String name, String cattegori, String description, String photo, Double lattitude,
             Double longitude) {
         this.id = id;
         this.name = name;
@@ -107,4 +105,5 @@ public class Wisata implements Serializable {
         this.longitude = longitude;
     }
 
+    
 }

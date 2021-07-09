@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "tbl_about")
@@ -18,10 +19,16 @@ public class AboutEntitt implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotEmpty(message = "Name is required !")
     @Column(name = "name")
     private String name;
+
+    @NotEmpty(message = "Name is required !")
     @Column(name = "description", length = 500)
     private String description;
+    
+    @NotEmpty(message = "Name is required !")
     @Column(name = "photo")
     private String photo;
 
