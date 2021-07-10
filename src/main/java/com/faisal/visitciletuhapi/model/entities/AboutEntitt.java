@@ -24,21 +24,21 @@ public class AboutEntitt implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @NotEmpty(message = "Name is required !")
+    @NotEmpty(message = "desc is required !")
     @Column(name = "description", length = 500)
     private String description;
     
-    @NotEmpty(message = "Name is required !")
+    @NotEmpty(message = "photo is required !")
     @Column(name = "photo")
     private String photo;
 
     public AboutEntitt() {
     }
 
-    public AboutEntitt(Long id, String name, String desc, String photo) {
+    public AboutEntitt(Long id, String name, String description, String photo) {
         this.id = id;
         this.name = name;
-        this.description = desc;
+        this.description = description;
         this.photo = photo;
     }
 

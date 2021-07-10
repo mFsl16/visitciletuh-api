@@ -24,6 +24,11 @@ public class AboutController {
     
     @PostMapping
     public AboutEntitt addData(@Valid @RequestBody AboutEntitt aboutEntitt, Errors errors) {
+
+        if(errors.hasErrors()) {
+            System.out.println("Errors");
+        }
+
         return aboutServices.addNew(aboutEntitt);
     }
 

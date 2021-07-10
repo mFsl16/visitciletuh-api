@@ -6,7 +6,11 @@ import com.faisal.visitciletuhapi.model.entities.AboutEntitt;
 import com.faisal.visitciletuhapi.model.repository.AboutRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+@Service
+@Transactional
 public class AboutServices {
     
     @Autowired AboutRepository aboutRepository;
