@@ -1,18 +1,18 @@
 package com.faisal.visitciletuhapi.model.entities;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "tbl_wisata")
-public class Wisata implements Serializable {
+@Table(name = "tbl_places")
+public class Place {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,8 +21,8 @@ public class Wisata implements Serializable {
     @NotEmpty(message = "Name is required !")
     private String name;
 
-    @NotEmpty(message = "Message is required !")
-    private String cattegori;
+    @NotEmpty(message = "Categori is required !")
+    private String category;
 
     @NotEmpty(message = "Description is required !")
     @Column(length = 500)
@@ -31,20 +31,20 @@ public class Wisata implements Serializable {
     @NotEmpty(message = "Photo is required !")
     private String photo;
 
-    @NotEmpty(message = "Latittude is required !")
+    @NotNull(message = "Lattitude can't be null")
     private Double lattitude;
 
-    @NotEmpty(message = "Longitude is required !")
+    @NotNull(message = "Longitude can't be null")
     private Double longitude;
 
-    public Wisata() {
+    public Place() {
     }
 
-    public Wisata(Long id, String name, String cattegori, String description, String photo, Double lattitude,
+    public Place(Long id, String name, String cattegori, String description, String photo, Double lattitude,
             Double longitude) {
         this.id = id;
         this.name = name;
-        this.cattegori = cattegori;
+        this.category = cattegori;
         this.description = description;
         this.photo = photo;
         this.lattitude = lattitude;
@@ -67,12 +67,12 @@ public class Wisata implements Serializable {
         this.name = name;
     }
 
-    public String getCattegori() {
-        return cattegori;
+    public String getCategory() {
+        return category;
     }
 
-    public void setCattegori(String cattegori) {
-        this.cattegori = cattegori;
+    public void setCategory(String cattegori) {
+        this.category= cattegori;
     }
 
     public String getDescription() {
@@ -107,4 +107,5 @@ public class Wisata implements Serializable {
         this.longitude = longitude;
     }
 
+    
 }

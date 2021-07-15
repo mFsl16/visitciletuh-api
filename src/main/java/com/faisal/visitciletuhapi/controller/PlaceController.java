@@ -3,8 +3,8 @@ package com.faisal.visitciletuhapi.controller;
 import javax.validation.Valid;
 
 import com.faisal.visitciletuhapi.dto.ResponseData;
-import com.faisal.visitciletuhapi.model.entities.AboutEntitt;
-import com.faisal.visitciletuhapi.services.AboutServices;
+import com.faisal.visitciletuhapi.model.entities.Place;
+import com.faisal.visitciletuhapi.services.PlaceServices;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,15 +21,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/about")
-public class AboutController {
+@RequestMapping("api/places")
+public class PlaceController {
 
-    @Autowired AboutServices aboutServices;
+    @Autowired PlaceServices placeServices;
     
     @PostMapping
-    public ResponseEntity<ResponseData<AboutEntitt>> addData(@Valid @RequestBody AboutEntitt aboutEntitt, Errors errors) {
-
-        ResponseData<AboutEntitt> responseData = new ResponseData<>();
+    public ResponseEntity<ResponseData<Place>> addData(@Valid @RequestBody Place hotel, Errors errors) {
+        
+        ResponseData<Place> responseData = new ResponseData<>();
 
         if(errors.hasErrors()) {
             for(ObjectError error : errors.getAllErrors()) {
@@ -42,26 +42,26 @@ public class AboutController {
         }
 
         responseData.setStatus(true);
-        responseData.setPayload(aboutServices.addNew(aboutEntitt));
+        responseData.setPayload(placeServices.addHotel(hotel));
         return ResponseEntity.ok(responseData);
     }
 
     @GetMapping()
-    public Iterable<AboutEntitt> getAll() {
-        return aboutServices.getAllData();
+    public Iterable<Place> getAll() {
+        return placeServices.getAllHotel();
     }
 
     @GetMapping("/{id}")
-    public AboutEntitt getOne(@PathVariable Long id) {
-        return aboutServices.getOne(id);
+    public Place getOne(@PathVariable Long id) {
+        return placeServices.getOneHotel(id);
     }
 
     @PutMapping
-    public ResponseEntity<ResponseData<AboutEntitt>> updateData(@Valid @RequestBody AboutEntitt aboutEntitt, Errors errors) {
+    public ResponseEntity<ResponseData<Place>> updateData(@Valid @RequestBody Place hotel, Errors errors) {
         
-        ResponseData<AboutEntitt> responseData = new ResponseData<>();
+        ResponseData<Place> responseData =  new ResponseData<>();
 
-        if (errors.hasErrors()) {
+        if(errors.hasErrors()) {
             for(ObjectError error : errors.getAllErrors()) {
                 responseData.getMessage().add(error.getDefaultMessage());
             }
@@ -72,12 +72,12 @@ public class AboutController {
         }
 
         responseData.setStatus(true);
-        responseData.setPayload(aboutServices.addNew(aboutEntitt));
+        responseData.setPayload(placeServices.addHotel(hotel));
         return ResponseEntity.ok(responseData);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        aboutServices.deleteData(id);
+        placeServices.deleteHotel(id);;
     }
 }

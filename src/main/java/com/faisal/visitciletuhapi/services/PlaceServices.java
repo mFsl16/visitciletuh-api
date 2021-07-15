@@ -2,8 +2,8 @@ package com.faisal.visitciletuhapi.services;
 
 import java.util.Optional;
 
-import com.faisal.visitciletuhapi.model.entities.Hotel;
-import com.faisal.visitciletuhapi.model.repository.HotelRepository;
+import com.faisal.visitciletuhapi.model.entities.Place;
+import com.faisal.visitciletuhapi.model.repository.PlaceRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,16 +11,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class HotelServices {
+public class PlaceServices {
     
-    @Autowired HotelRepository hotelRepository;
+    @Autowired PlaceRepository hotelRepository;
 
-    public Hotel addHotel(Hotel hotel) {
+    public Place addHotel(Place hotel) {
         return hotelRepository.save(hotel);
     }
 
-    public Hotel getOneHotel(Long id) {
-        Optional<Hotel> temp = hotelRepository.findById(id);
+    public Place getOneHotel(Long id) {
+        Optional<Place> temp = hotelRepository.findById(id);
 
         if (!temp.isPresent()) {
             return null;
@@ -29,7 +29,7 @@ public class HotelServices {
         return temp.get();
     }
 
-    public Iterable<Hotel> getAllHotel() {
+    public Iterable<Place> getAllHotel() {
         return hotelRepository.findAll();
     }
 
