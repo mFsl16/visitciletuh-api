@@ -1,9 +1,14 @@
 package com.faisal.visitciletuhapi.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import com.faisal.visitciletuhapi.dto.ResponseData;
+import com.faisal.visitciletuhapi.dto.SearchKeyDTO;
+import com.faisal.visitciletuhapi.model.entities.Categories;
 import com.faisal.visitciletuhapi.model.entities.Place;
+import com.faisal.visitciletuhapi.services.CategorysServices;
 import com.faisal.visitciletuhapi.services.PlaceServices;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +30,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class PlaceController {
 
     @Autowired PlaceServices placeServices;
+
+    @Autowired CategorysServices categorysServices;
     
     @PostMapping
-    public ResponseEntity<ResponseData<Place>> addData(@Valid @RequestBody Place hotel, Errors errors) {
+    public ResponseEntity<ResponseData<Place>> addData(@Valid @RequestBody Place place, Errors errors) {
         
         ResponseData<Place> responseData = new ResponseData<>();
+
+        Categories categories = categorysServices.getOneCategory(place.getCategory().getId());
 
         if(errors.hasErrors()) {
             for(ObjectError error : errors.getAllErrors()) {
@@ -41,9 +50,23 @@ public class PlaceController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
         }
 
+        System.out.println(">>>>>>>>>" + place.getCategory().getId());
+
+        if(categories == null) {
+            responseData.getMessage().add("Wrong category!");
+            responseData.setStatus(false);
+            responseData.setPayload(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
+        }
+
         responseData.setStatus(true);
-        responseData.setPayload(placeServices.addHotel(hotel));
+        responseData.setPayload(placeServices.addHotel(place));
         return ResponseEntity.ok(responseData);
+    }
+
+    @PostMapping("/search/name")
+    public List<Place> findByName(@RequestBody SearchKeyDTO searchKeyDTO) {
+        return placeServices.findByName("%" + searchKeyDTO.getKeyword() + "%");
     }
 
     @GetMapping()
@@ -54,6 +77,11 @@ public class PlaceController {
     @GetMapping("/{id}")
     public Place getOne(@PathVariable Long id) {
         return placeServices.getOneHotel(id);
+    }
+
+    @GetMapping("/search/{categoryName}")
+    public List<Place> findByCategory(@PathVariable String categoryName) {
+        return placeServices.findByCategory("%" + categoryName + "%");
     }
 
     @PutMapping

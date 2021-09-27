@@ -5,8 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -21,14 +21,13 @@ public class Place {
     @NotEmpty(message = "Name is required !")
     private String name;
 
-    @NotEmpty(message = "Categori is required !")
-    private String category;
+    @ManyToOne
+    private Categories categories;
 
     @NotEmpty(message = "Description is required !")
     @Column(length = 500)
     private String description;
 
-    @NotEmpty(message = "Photo is required !")
     private String photo;
 
     @NotNull(message = "Lattitude can't be null")
@@ -40,11 +39,11 @@ public class Place {
     public Place() {
     }
 
-    public Place(Long id, String name, String cattegori, String description, String photo, Double lattitude,
+    public Place(Long id, String name, Categories categories, String description, String photo, Double lattitude,
             Double longitude) {
         this.id = id;
         this.name = name;
-        this.category = cattegori;
+        this.categories = categories;
         this.description = description;
         this.photo = photo;
         this.lattitude = lattitude;
@@ -67,12 +66,12 @@ public class Place {
         this.name = name;
     }
 
-    public String getCategory() {
-        return category;
+    public Categories getCategory() {
+        return categories;
     }
 
-    public void setCategory(String cattegori) {
-        this.category= cattegori;
+    public void setCategory(Categories categories) {
+        this.categories = categories;
     }
 
     public String getDescription() {

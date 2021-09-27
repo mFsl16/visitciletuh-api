@@ -1,5 +1,6 @@
 package com.faisal.visitciletuhapi.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.faisal.visitciletuhapi.model.entities.Place;
@@ -13,14 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class PlaceServices {
     
-    @Autowired PlaceRepository hotelRepository;
+    @Autowired PlaceRepository placeRepository;
 
-    public Place addHotel(Place hotel) {
-        return hotelRepository.save(hotel);
+    public Place addHotel(Place place) {
+        return placeRepository.save(place);
     }
 
     public Place getOneHotel(Long id) {
-        Optional<Place> temp = hotelRepository.findById(id);
+        Optional<Place> temp = placeRepository.findById(id);
 
         if (!temp.isPresent()) {
             return null;
@@ -30,10 +31,18 @@ public class PlaceServices {
     }
 
     public Iterable<Place> getAllHotel() {
-        return hotelRepository.findAll();
+        return placeRepository.findAll();
     }
 
     public void deleteHotel(Long id) {
-        hotelRepository.deleteById(id);
+        placeRepository.deleteById(id);
+    }
+
+    public List<Place> findByCategory(String categoryName) {
+        return placeRepository.findByCategoryLike(categoryName);
+    }  
+
+    public List<Place> findByName(String name) {
+        return placeRepository.findByNameLike(name);
     }
 }
