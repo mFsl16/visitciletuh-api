@@ -1,55 +1,39 @@
-package com.faisal.visitciletuhapi.model.entities;
+package com.faisal.visitciletuhapi.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotEmpty;
 
-@Entity
-@Table(name = "tbl_places")
-public class Place {
+public class PlaceDto {
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    @NotEmpty(message = "Name cant be empty")
     private String name;
 
-    @ManyToOne
-    private Categories categories;
+    @NotEmpty(message = "Please add category")
+    private String categories;
 
-    @Column(length = 500)
+    @NotEmpty(message = "Description cant be empty")
     private String description;
 
     private String photo;
 
+    @DecimalMin("-90") @DecimalMax("90")
     private Double lattitude;
 
+    @DecimalMin("-180") @DecimalMax("180")
     private Double longitude;
 
-    public Place() {
-    }
-
-    public Place(Long id, String name, Categories categories, String description, String photo, Double lattitude,
-            Double longitude) {
-        this.id = id;
+    public PlaceDto(@NotEmpty(message = "Name cant be empty") String name,
+            @NotEmpty(message = "Please add category") String categories,
+            @NotEmpty(message = "Description cant be empty") String description, String photo,
+            @DecimalMin("-90") @DecimalMax("90") Double lattitude,
+            @DecimalMin("-180") @DecimalMax("180") Double longitude) {
         this.name = name;
         this.categories = categories;
         this.description = description;
         this.photo = photo;
         this.lattitude = lattitude;
         this.longitude = longitude;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -60,11 +44,11 @@ public class Place {
         this.name = name;
     }
 
-    public Categories getCategory() {
+    public String getCategories() {
         return categories;
     }
 
-    public void setCategory(Categories categories) {
+    public void setCategories(String categories) {
         this.categories = categories;
     }
 

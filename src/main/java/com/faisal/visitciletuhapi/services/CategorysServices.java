@@ -1,5 +1,6 @@
 package com.faisal.visitciletuhapi.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.faisal.visitciletuhapi.model.entities.Categories;
@@ -38,5 +39,9 @@ public class CategorysServices {
 
     public void deleteById(Long id) {
         categoriesRepository.deleteById(id);
+    }
+
+    public List<Categories> findByName(String name) {
+        return categoriesRepository.findByName(name);
     }
 }

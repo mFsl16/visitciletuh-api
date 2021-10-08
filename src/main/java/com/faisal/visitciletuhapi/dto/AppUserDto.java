@@ -1,7 +1,5 @@
 package com.faisal.visitciletuhapi.dto;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 

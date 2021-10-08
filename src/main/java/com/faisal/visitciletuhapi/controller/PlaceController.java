@@ -4,12 +4,13 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.faisal.visitciletuhapi.dto.PlaceDto;
 import com.faisal.visitciletuhapi.dto.ResponseData;
-import com.faisal.visitciletuhapi.dto.SearchKeyDTO;
 import com.faisal.visitciletuhapi.model.entities.Categories;
 import com.faisal.visitciletuhapi.model.entities.Place;
 import com.faisal.visitciletuhapi.services.CategorysServices;
 import com.faisal.visitciletuhapi.services.PlaceServices;
+import com.faisal.visitciletuhapi.utils.ModelMapperUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,13 +33,15 @@ public class PlaceController {
     @Autowired PlaceServices placeServices;
 
     @Autowired CategorysServices categorysServices;
+
+    @Autowired ModelMapperUtil modelMapperUtil;
     
     @PostMapping
-    public ResponseEntity<ResponseData<Place>> addData(@Valid @RequestBody Place place, Errors errors) {
+    public ResponseEntity<ResponseData<Place>> addData(@Valid @RequestBody PlaceDto placeDto, Errors errors) {
         
         ResponseData<Place> responseData = new ResponseData<>();
 
-        Categories categories = categorysServices.getOneCategory(place.getCategory().getId());
+        List<Categories> categories = categorysServices.findByName(placeDto.getCategories());
 
         if(errors.hasErrors()) {
             for(ObjectError error : errors.getAllErrors()) {
@@ -50,8 +53,6 @@ public class PlaceController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
         }
 
-        System.out.println(">>>>>>>>>" + place.getCategory().getId());
-
         if(categories == null) {
             responseData.getMessage().add("Wrong category!");
             responseData.setStatus(false);
@@ -59,14 +60,17 @@ public class PlaceController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
         }
 
+        Place place = modelMapperUtil.modelMapper().map(placeDto, Place.class);
+        place.setCategory(categories.get(0));
+
         responseData.setStatus(true);
         responseData.setPayload(placeServices.addHotel(place));
         return ResponseEntity.ok(responseData);
     }
 
-    @PostMapping("/search/name")
-    public List<Place> findByName(@RequestBody SearchKeyDTO searchKeyDTO) {
-        return placeServices.findByName("%" + searchKeyDTO.getKeyword() + "%");
+    @GetMapping("/search/{name}")
+    public List<Place> findByName(@PathVariable String name) {
+        return placeServices.findByName("%" + name + "%");
     }
 
     @GetMapping()
